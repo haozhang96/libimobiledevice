@@ -20,10 +20,10 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cc"
              "${MINGW_PACKAGE_PREFIX}-autotools")
 options=('!buildflags')
 source=("https://github.com/openssl/openssl/releases/download/openssl-${pkgver}/openssl-${pkgver}.tar.gz"{,.asc}
-        '002-relocation.patch'
-        '004-arch-suffix.patch'
-        'pathtools.c'
-        'pathtools.h')
+        'https://raw.githubusercontent.com/msys2/MINGW-packages/6434db3d222137d9a075670bfc1370f8b00059df/mingw-w64-openssl/002-relocation.patch'
+        'https://raw.githubusercontent.com/msys2/MINGW-packages/6434db3d222137d9a075670bfc1370f8b00059df/mingw-w64-openssl/004-arch-suffix.patch'
+        'https://raw.githubusercontent.com/msys2/MINGW-packages/6434db3d222137d9a075670bfc1370f8b00059df/mingw-w64-openssl/pathtools.c'
+        'https://raw.githubusercontent.com/msys2/MINGW-packages/6434db3d222137d9a075670bfc1370f8b00059df/mingw-w64-openssl/pathtools.h')
 sha256sums=('243a86649cf6f23eeb6a2ff2456e09e5d77dd9018a54d3d96b0c6bdd6ba6c7f1'
             'SKIP'
             '3e9a8abb6ff5fb7bdb450742fb7bd85513a4abbe85594228620379bcac7c02ef'
