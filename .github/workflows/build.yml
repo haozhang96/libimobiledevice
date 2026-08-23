@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-windows:
-    runs-on: windows-2022
+    runs-on: windows-latest
     defaults:
       run:
         shell: msys2 {0}
@@ -50,7 +50,7 @@ jobs:
             echo "Building $repo..."
             git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
             pushd "$repo" > /dev/null
-            ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython --disable-openssl --with-gnutls
+            ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython --with-gnutls
             make -j install
             popd > /dev/null
         done
