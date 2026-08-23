@@ -101,19 +101,19 @@ build() {
     -DOPENSSLBIN=\"\\\"${MINGW_PREFIX}/bin\\\"\"
 
   MSYS2_ARG_CONV_EXCL="-DENGINESDIR=;-DMODULESDIR=;-DOPENSSLDIR=;-DINSTALLTOP=;-DOPENSSLBIN=" \
-  make
+  make -j
 }
 
 check() {
   cd "${srcdir}/build-${MSYSTEM}"
 
-  make VERBOSE=1 test
+  make -j VERBOSE=1 test
 }
 
 package() {
   cd "${srcdir}/build-${MSYSTEM}"
 
-  make -j1 install DESTDIR="${pkgdir}"
+  make install DESTDIR="${pkgdir}"
 
   # https://github.com/openssl/openssl/issues/24298
   for pcfile in "${pkgdir}${MINGW_PREFIX}"/lib/pkgconfig/*.pc; do
