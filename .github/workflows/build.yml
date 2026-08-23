@@ -49,7 +49,7 @@ jobs:
             echo "Building $repo..."
             git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
             pushd "$repo" > /dev/null
-            ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython
+            ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython --with-gnutls
             make -j install
             popd > /dev/null
         done
