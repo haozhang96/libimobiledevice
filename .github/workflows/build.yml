@@ -45,6 +45,7 @@ jobs:
       run: |
         pushd "3rd_party/mingw_packages/mingw-w64-openssl" > /dev/null
         dos2unix PKGBUILD
+        gpg --recv-keys BA5473A2B0587B07FB27CF2D216094DFD0CB81EF
         makepkg-mingw -sCLfc --noconfirm --noprogressbar
         pacman --noconfirm -S --overwrite -U mingw-w64-*.pkg.tar.xz
         popd > /dev/null
