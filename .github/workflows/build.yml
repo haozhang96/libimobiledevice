@@ -34,6 +34,7 @@ jobs:
           mingw-w64-${{ matrix.arch }}-libxml2
           mingw-w64-${{ matrix.arch }}-curl
           mingw-w64-${{ matrix.arch }}-github-cli
+          mingw-w64-${{ matrix.arch }}-libgcrypt
 
     - uses: actions/checkout@v4
     - name: prepare environment
