@@ -19,10 +19,11 @@ jobs:
       with:
         msystem: ${{ matrix.msystem }}
         release: false
-        update: true
+        update: false
         install: >-
           base-devel
           git
+          dos2unix
           mingw-w64-${{ matrix.arch }}-gcc
           make
           libtool
@@ -43,6 +44,7 @@ jobs:
     - name: build openssl with sslv3
       run: |
         pushd "3rd_party/mingw_packages/mingw-w64-openssl" > /dev/null
+        dos2unix PKGBUILD
         makepkg-mingw -sCLfc --noconfirm --noprogressbar
         pacman --noconfirm -S --needed --overwrite -U mingw-w64-*.pkg.tar.xz
         popd > /dev/null
