@@ -13,14 +13,14 @@ jobs:
       fail-fast: false
       matrix:
         include: [
-          { msystem: mingw64, arch: x86_64 }
+          { msystem: ucrt64, arch: x86_64 }
         ]
     steps:
     - uses: msys2/setup-msys2@v2
       with:
         msystem: ${{ matrix.msystem }}
         release: false
-        update: false
+        update: true
         install: >-
           base-devel
           git
@@ -32,9 +32,9 @@ jobs:
           mingw-w64-${{ matrix.arch }}-pkgconf
           mingw-w64-${{ matrix.arch }}-libzip
           mingw-w64-${{ matrix.arch }}-libxml2
+          mingw-w64-${{ matrix.arch }}-openssl
           mingw-w64-${{ matrix.arch }}-curl
           mingw-w64-${{ matrix.arch }}-github-cli
-          mingw-w64-${{ matrix.arch }}-libgcrypt
 
     - uses: actions/checkout@v4
     - name: prepare environment
@@ -50,7 +50,7 @@ jobs:
             echo "Building $repo..."
             git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
             pushd "$repo" > /dev/null
-            ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython --with-gnutls
+            ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython
             make -j install
             popd > /dev/null
         done
@@ -79,7 +79,7 @@ jobs:
 
     - name: publish release
       env:
-        github_token: ${{secrets.GITHUB_TOKEN}}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
       run: |
         TAG="${GITHUB_REF##*/}-${GITHUB_SHA:0:7}"
         gh release create "$TAG" --draft --title "Draft Release"
