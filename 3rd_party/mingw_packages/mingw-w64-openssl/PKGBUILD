@@ -113,7 +113,7 @@ check() {
 package() {
   cd "${srcdir}/build-${MSYSTEM}"
 
-  make install DESTDIR="${pkgdir}"
+  make install -j DESTDIR="${pkgdir}"
 
   # https://github.com/openssl/openssl/issues/24298
   for pcfile in "${pkgdir}${MINGW_PREFIX}"/lib/pkgconfig/*.pc; do
