@@ -47,7 +47,7 @@ jobs:
     - name: Build OpenSSL with SSLv3 support
       run: |
         pushd "3rd_party/mingw_packages/mingw-w64-openssl" > /dev/null
-        gpg --recv-keys BA5473A2B0587B07FB27CF2D216094DFD0CB81EF
+        gpg --recv-keys B146647E45A7B33947AB226B2A2C87D161692D40
         dos2unix PKGBUILD
         makepkg-mingw -sfi --noconfirm --noprogressbar --nocheck
         popd > /dev/null
@@ -59,12 +59,12 @@ jobs:
         for repo in "${repos[@]}"; do
             echo "Building $repo..."
             if [ $repo -eq "libimobiledevice" ]; then
-              # Merge https://github.com/libimobiledevice/libimobiledevice/pull/1711 to add ideviceprofile
+              # Specifically build libimobiledevice after merging PR #1711 to add MCInstall/ideviceprofile
               git clone "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
               git pull origin refs/pull/1711/head --rebase
             else
-              # Build 
+              # Build other dependencies as they are
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
             fi
