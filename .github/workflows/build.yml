@@ -77,12 +77,12 @@ jobs:
       run: |
         mkdir -p rel
         # Copy binaries first
-        find /mingw64/bin/ -type f \( -name "*idevice*" -o -name "*irecovery*" -o \
+        find /${{ matrix.msystem }}/bin/ -type f \( -name "*idevice*" -o -name "*irecovery*" -o \
                                       -name "plistutil.exe" -o -name "inetcat.exe" -o \
                                       -name "iproxy.exe" \) -exec cp -v {} rel \;
-        # Resolve all DLL deps recursively from /mingw64
+        # Resolve all DLL deps recursively
         resolve_deps() {
-          ldd "$1" 2>/dev/null | awk '/\/mingw64\/bin\// {print $3}' | while read dll; do
+          ldd "$1" 2>/dev/null | awk '/\/${{ matrix.msystem }}\/bin\// {print $3}' | while read dll; do
             base=$(basename "$dll")
             if [ ! -f "rel/$base" ]; then
               cp -v "$dll" rel/
