@@ -3,13 +3,14 @@
 _realname=openssl
 pkgbase=mingw-w64-${_realname}
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}")
-pkgver=3.6.3
+pkgver=3.6.5
 pkgrel=1
 pkgdesc="The Open Source toolkit for Secure Sockets Layer and Transport Layer Security (mingw-w64)"
 arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64' 'clangarm64')
 url='https://openssl-library.org'
 msys2_repository_url="https://github.com/openssl/openssl"
+msys2_pgp_keys_url="https://github.com/openssl/openssl/blob/master/doc/fingerprints.txt"
 msys2_references=(
   'archlinux: openssl'
   "cpe: cpe:/a:openssl:openssl"
@@ -20,11 +21,11 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-cc"
              "${MINGW_PACKAGE_PREFIX}-autotools")
 options=('!buildflags')
 source=("https://github.com/openssl/openssl/releases/download/openssl-${pkgver}/openssl-${pkgver}.tar.gz"{,.asc}
-        'https://raw.githubusercontent.com/msys2/MINGW-packages/6434db3d222137d9a075670bfc1370f8b00059df/mingw-w64-openssl/002-relocation.patch'
-        'https://raw.githubusercontent.com/msys2/MINGW-packages/6434db3d222137d9a075670bfc1370f8b00059df/mingw-w64-openssl/004-arch-suffix.patch'
-        'https://raw.githubusercontent.com/msys2/MINGW-packages/6434db3d222137d9a075670bfc1370f8b00059df/mingw-w64-openssl/pathtools.c'
-        'https://raw.githubusercontent.com/msys2/MINGW-packages/6434db3d222137d9a075670bfc1370f8b00059df/mingw-w64-openssl/pathtools.h')
-sha256sums=('243a86649cf6f23eeb6a2ff2456e09e5d77dd9018a54d3d96b0c6bdd6ba6c7f1'
+        'https://raw.githubusercontent.com/msys2/MINGW-packages/ea8fd74f46dcd41e996349621ca42a8a94f31548/mingw-w64-openssl/002-relocation.patch'
+        'https://raw.githubusercontent.com/msys2/MINGW-packages/ea8fd74f46dcd41e996349621ca42a8a94f31548/mingw-w64-openssl/004-arch-suffix.patch'
+        'https://raw.githubusercontent.com/msys2/MINGW-packages/ea8fd74f46dcd41e996349621ca42a8a94f31548/mingw-w64-openssl/pathtools.c'
+        'https://raw.githubusercontent.com/msys2/MINGW-packages/ea8fd74f46dcd41e996349621ca42a8a94f31548/mingw-w64-openssl/pathtools.h')
+sha256sums=('a2157c2830efdec3788939b00c9b0638306d3f0bbb76dc4832ee503bb397df98'
             'SKIP'
             '3e9a8abb6ff5fb7bdb450742fb7bd85513a4abbe85594228620379bcac7c02ef'
             '6a686ef69c2b196fb1420389ccd0db84582fd288942560d5eba963c11ce8595a'
@@ -32,7 +33,7 @@ sha256sums=('243a86649cf6f23eeb6a2ff2456e09e5d77dd9018a54d3d96b0c6bdd6ba6c7f1'
             '1585ef1b61cf53a2ca27049c11d49e0834683dfda798f03547761375df482a90')
 # https://openssl-library.org/source/index.html
 validpgpkeys=(
-  'BA5473A2B0587B07FB27CF2D216094DFD0CB81EF' # openssl@openssl.org
+  'B146647E45A7B33947AB226B2A2C87D161692D40' # openssl@openssl.org
 )
 
 # Helper macros to help make tasks easier #

@@ -1,1 +1,1 @@
-This repository is a fork of [L1ghtmann/libimobiledevice](https://github.com/L1ghtmann/libimobiledevice) that additionally builds OpenSSL 3.6.3 with SSLv3 enabled to communicate with iPhone OS 1.x.
+This repository is a fork of [L1ghtmann/libimobiledevice](https://github.com/L1ghtmann/libimobiledevice) that additionally builds [OpenSSL 3.6.5](https://github.com/msys2/MINGW-packages/blob/ea8fd74f46dcd41e996349621ca42a8a94f31548/mingw-w64-openssl/PKGBUILD) with SSLv3 enabled to communicate with iPhone OS 1.x.

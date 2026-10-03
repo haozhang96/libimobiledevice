@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { msystem: mingw64, arch: x86_64 }
+          - { msystem: ucrt64, arch: x86_64 }
     steps:
     - name: Set up MSYS2 and MinGW
       uses: msys2/setup-msys2@v2
@@ -25,16 +25,16 @@ jobs:
           base-devel
           git
           dos2unix
-          mingw-w64-${{ matrix.arch }}-gcc
+          mingw-w64-ucrt-${{ matrix.arch }}-gcc
           make
           libtool
           autoconf
           automake-wrapper
-          mingw-w64-${{ matrix.arch }}-pkgconf
-          mingw-w64-${{ matrix.arch }}-libzip
-          mingw-w64-${{ matrix.arch }}-libxml2
-          mingw-w64-${{ matrix.arch }}-curl
-          mingw-w64-${{ matrix.arch }}-github-cli
+          mingw-w64-ucrt-${{ matrix.arch }}-pkgconf
+          mingw-w64-ucrt-${{ matrix.arch }}-libzip
+          mingw-w64-ucrt-${{ matrix.arch }}-libxml2
+          mingw-w64-ucrt-${{ matrix.arch }}-curl
+          mingw-w64-ucrt-${{ matrix.arch }}-github-cli
 
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
     - name: Build OpenSSL with SSLv3 support
       run: |
         pushd "3rd_party/mingw_packages/mingw-w64-openssl" > /dev/null
-        gpg --recv-keys BA5473A2B0587B07FB27CF2D216094DFD0CB81EF
+        gpg --recv-keys B146647E45A7B33947AB226B2A2C87D161692D40
         dos2unix PKGBUILD
         makepkg-mingw -sfi --noconfirm --noprogressbar --nocheck
         popd > /dev/null
@@ -58,8 +58,16 @@ jobs:
         repos=("libplist" "libimobiledevice-glue" "libusbmuxd" "libtatsu" "libimobiledevice" "libideviceactivation" "ideviceinstaller" "libirecovery" "idevicerestore")
         for repo in "${repos[@]}"; do
             echo "Building $repo..."
-            git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
-            pushd "$repo" > /dev/null
+            if [ $repo -eq "libimobiledevice" ]; then
+              # Specifically build libimobiledevice after merging PR #1711 to add MCInstall/ideviceprofile
+              git clone "https://github.com/libimobiledevice/$repo"
+              pushd "$repo" > /dev/null
+              git pull origin refs/pull/1711/head --rebase
+            else
+              # Build other dependencies as they are
+              git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
+              pushd "$repo" > /dev/null
+            fi
             ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython
             make -j install
             popd > /dev/null
@@ -69,12 +77,12 @@ jobs:
       run: |
         mkdir -p rel
         # Copy binaries first
-        find /mingw64/bin/ -type f \( -name "*idevice*" -o -name "*irecovery*" -o \
+        find /${{ matrix.msystem }}/bin/ -type f \( -name "*idevice*" -o -name "*irecovery*" -o \
                                       -name "plistutil.exe" -o -name "inetcat.exe" -o \
                                       -name "iproxy.exe" \) -exec cp -v {} rel \;
-        # Resolve all DLL deps recursively from /mingw64
+        # Resolve all DLL deps recursively
         resolve_deps() {
-          ldd "$1" 2>/dev/null | awk '/\/mingw64\/bin\// {print $3}' | while read dll; do
+          ldd "$1" 2>/dev/null | awk '/\/${{ matrix.msystem }}\/bin\// {print $3}' | while read dll; do
             base=$(basename "$dll")
             if [ ! -f "rel/$base" ]; then
               cp -v "$dll" rel/
