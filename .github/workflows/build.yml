@@ -58,7 +58,7 @@ jobs:
         repos=("libplist" "libimobiledevice-glue" "libusbmuxd" "libtatsu" "libimobiledevice" "libideviceactivation" "ideviceinstaller" "libirecovery" "idevicerestore")
         for repo in "${repos[@]}"; do
             echo "Building $repo..."
-            if [ $repo -eq "libimobiledevice" ]; then
+            if [ $repo = "libimobiledevice" ]; then
               # Specifically build libimobiledevice after merging PR #1711 to add MCInstall/ideviceprofile
               git clone "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
