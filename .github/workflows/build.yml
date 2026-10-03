@@ -58,8 +58,16 @@ jobs:
         repos=("libplist" "libimobiledevice-glue" "libusbmuxd" "libtatsu" "libimobiledevice" "libideviceactivation" "ideviceinstaller" "libirecovery" "idevicerestore")
         for repo in "${repos[@]}"; do
             echo "Building $repo..."
-            git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
-            pushd "$repo" > /dev/null
+            if [ $repo -eq "libimobiledevice" ]; then
+              # Merge https://github.com/libimobiledevice/libimobiledevice/pull/1711 to add ideviceprofile
+              git clone "https://github.com/libimobiledevice/$repo"
+              pushd "$repo" > /dev/null
+              git pull origin refs/pull/1711/head --rebase
+            else
+              # Build 
+              git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
+              pushd "$repo" > /dev/null
+            fi
             ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython
             make -j install
             popd > /dev/null
