@@ -120,10 +120,11 @@ jobs:
     steps:
     - name: Set up build system
       run: |
+        dependencies='libtool gcc autoconf automake pkgconfig usbmuxd curl openssl libzip libxml2'
         if test -x "`which port`"; then
-          sudo port install libtool gcc autoconf automake pkgconfig usbmuxd openssl libzip libxml2 libcurl
+          sudo port $dependencies
         else
-          brew install libtool gcc autoconf automake pkgconfig usbmuxd openssl libzip libxml2 libcurl
+          brew install $dependencies
         fi
 
     - name: Checkout repository
