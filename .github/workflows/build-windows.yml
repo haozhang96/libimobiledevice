@@ -123,9 +123,9 @@ jobs:
     steps:
     - name: Set up build system
       run: |
-        dependencies='git make libtool autoconf automake gcc pkgconfig libzip libxml2 curl openssl gh'
+        dependencies='git make libtool autoconf automake gcc pkgconfig libzip libxml2 curl openssl gh gnu-sed'
         if test -x "`which port`"; then
-          sudo port $dependencies
+          sudo port install $dependencies
         else
           brew install $dependencies
         fi
@@ -157,8 +157,8 @@ jobs:
               pushd "$repo" > /dev/null
 
               target='void finalize_progress(uint32_t tag)'
-              sed -i'' '/^$target/{n;d;}' src/common.c
-              sed -i'' '/^$target/a \
+              gsed -i'' '/^$target/{n;d;}' src/common.c
+              gsed -i'' '/^$target/a \
                         { \
                           thread_once(&progress_info_once, _init_progress_info); \
                         ' src/common.c
