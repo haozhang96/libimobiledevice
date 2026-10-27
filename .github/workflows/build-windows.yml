@@ -1,4 +1,4 @@
-name: Build Windows binaries
+name: Build binaries
 
 on:
   workflow_dispatch:
