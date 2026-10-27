@@ -66,7 +66,7 @@ jobs:
   #             pushd "$repo" > /dev/null
   #             git pull origin refs/pull/1711/head --rebase
   #           elif [ $repo = 'idevicerestore' ]; then
-  #             # idevicerestore: Build after adding fix from https://github.com/libimobiledevice/idevicerestore/issues/788.
+  #             # idevicerestore: Build after applying fix from https://github.com/libimobiledevice/idevicerestore/issues/788.
   #             git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
   #             pushd "$repo" > /dev/null
 
@@ -122,7 +122,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { compiler: gcc, arch: x86_64 }
+          - { compiler: clang, arch: x86_64 }
     steps:
     - name: Set up build system
       run: |
@@ -155,7 +155,7 @@ jobs:
               pushd "$repo" > /dev/null
               git pull origin refs/pull/1711/head --rebase
             elif [ $repo = 'idevicerestore' ]; then
-              # idevicerestore: Build after adding fix from https://github.com/libimobiledevice/idevicerestore/issues/788.
+              # idevicerestore: Build after applying fix from https://github.com/libimobiledevice/idevicerestore/issues/788.
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
 
@@ -170,7 +170,7 @@ jobs:
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
             fi
-            ./autogen.sh CC=${{matrix.compiler}} CXX=g++ CFLAGS="-static" CXXFLAGS="-static" LDFLAGS="-static" --enable-static --disable-shared --enable-debug --without-cython
+            ./autogen.sh CC=${{matrix.compiler}} CXX=${{matrix.compiler}}++ -all-static --enable-static --disable-shared --enable-debug --without-cython
             sudo make -j install
             popd > /dev/null
         done
@@ -182,7 +182,7 @@ jobs:
         for repo in "${repos[@]}"; do
           DESTDIR=`pwd`/rel make install -C $repo
         done
-        tar -C rel/usr/local/bin -cJvf libimobile-suite-latest_macOS_${{matrix.arch}}.tar.xz .
+        tar -C rel -cJvf libimobile-suite-latest_macOS_${{matrix.arch}}.tar.xz usr
 
     - name: Draft release
       env:
