@@ -25,11 +25,11 @@ jobs:
   #         base-devel
   #         git
   #         dos2unix
-  #         mingw-w64-${{matrix.arch}}-gcc
   #         make
   #         libtool
   #         autoconf
   #         automake-wrapper
+  #         mingw-w64-${{matrix.arch}}-gcc
   #         mingw-w64-${{matrix.arch}}-pkgconf
   #         mingw-w64-${{matrix.arch}}-libzip
   #         mingw-w64-${{matrix.arch}}-libxml2
@@ -120,7 +120,7 @@ jobs:
     steps:
     - name: Set up build system
       run: |
-        dependencies='git gcc make libtool autoconf automake pkgconfig libzip libxml2 curl openssl github-cli'
+        dependencies='git make libtool autoconf automake gcc pkgconfig libzip libxml2 curl openssl gh'
         if test -x "`which port`"; then
           sudo port $dependencies
         else
