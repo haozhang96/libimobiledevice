@@ -171,7 +171,7 @@ jobs:
               pushd "$repo" > /dev/null
             fi
             ./autogen.sh CC=gcc CXX=g++ --enable-debug --without-cython
-            sudo make -j install
+            sudo make -j install -DBUILD_SHARED_LIBS=OFF
             popd > /dev/null
         done
 
