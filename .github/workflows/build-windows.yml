@@ -135,7 +135,6 @@ jobs:
 
     - name: Prepare environment
       run: |
-        alias sed='gsed'
         echo "target_triplet=`gcc -dumpmachine`" >> $GITHUB_ENV
         git config --global user.name "${{github.actor}}"
         git config --global user.email "${{github.actor_id}}+${{github.actor}}@users.noreply.github.com"
@@ -158,8 +157,8 @@ jobs:
               pushd "$repo" > /dev/null
 
               target='void finalize_progress(uint32_t tag)'
-              sed -i'' '/^$target/{n;d;}' src/common.c
-              sed -i'' '/^$target/a \
+              gsed -i'' '/^$target/{n;d;}' src/common.c
+              gsed -i'' '/^$target/a \
                         { \
                           thread_once(&progress_info_once, _init_progress_info); \
                         ' src/common.c
