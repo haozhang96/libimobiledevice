@@ -120,6 +120,9 @@ jobs:
     runs-on: macos-15-intel
     strategy:
       fail-fast: false
+      matrix:
+        include:
+          - { arch: x86_64 }
     steps:
     - name: Set up build system
       run: |
@@ -179,7 +182,7 @@ jobs:
         for repo in "${repos[@]}"; do
           DESTDIR=`pwd`/rel make install -C $repo
         done
-        tar -C rel/usr/local/bin -cJvf libimobile-suite-latest_macOS_x64.tar.xz .
+        tar -C rel/usr/local/bin -cJvf libimobile-suite-latest_macOS_${{matrix.arch}}.tar.xz .
 
     - name: Draft release
       env:
@@ -187,4 +190,4 @@ jobs:
       run: |
         TAG="${GITHUB_REF##*/}-${GITHUB_SHA:0:7}"
         gh release create "$TAG" --draft --title "Draft Release"
-        gh release upload "$TAG" libimobile-suite-latest_macOS_x64.tar.xz
+        gh release upload "$TAG" libimobile-suite-latest_macOS_${{matrix.arch}}.tar.xz
