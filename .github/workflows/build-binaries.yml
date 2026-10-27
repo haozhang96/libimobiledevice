@@ -170,7 +170,7 @@ jobs:
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
             fi
-            ./autogen.sh CC=${{matrix.compiler}} CXX=g++ -static --enable-debug --without-cython
+            ./autogen.sh CC=${{matrix.compiler}} CXX=g++ --enable-static --enable-debug --without-cython
             sudo make -j install
             popd > /dev/null
         done
