@@ -123,7 +123,7 @@ jobs:
     steps:
     - name: Set up build system
       run: |
-        dependencies='git make libtool autoconf automake gcc pkgconfig libzip libxml2 curl openssl gh gnu-sed'
+        dependencies='git make libtool autoconf automake pkgconfig libzip libxml2 curl openssl gh gnu-sed'
         if test -x "`which port`"; then
           sudo port install $dependencies
         else
@@ -176,7 +176,10 @@ jobs:
     - name: Prepare release
       run: |
         mkdir -p rel
-        DESTDIR=`pwd`/rel make install
+        repos=('libplist' 'libimobiledevice-glue' 'libusbmuxd' 'libtatsu' 'libimobiledevice' 'libideviceactivation' 'ideviceinstaller' 'libirecovery' 'idevicerestore')
+        for repo in "${repos[@]}"; do
+          DESTDIR=`pwd`/rel make install --directory="$repo"
+        done
         tar -C rel -cJvf libimobile-suite-latest_macOS_x64.tar.xz usr
 
     - name: Draft release
