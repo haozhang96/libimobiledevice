@@ -122,7 +122,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { arch: x86_64 }
+          - { compiler: clang, arch: x86_64 }
     steps:
     - name: Set up build system
       run: |
@@ -170,7 +170,7 @@ jobs:
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
             fi
-            ./autogen.sh CC=gcc CXX=g++ --static --enable-debug --without-cython
+            ./autogen.sh CC=${{matrix.compiler}} CXX=g++ -static --enable-debug --without-cython
             sudo make -j install
             popd > /dev/null
         done
