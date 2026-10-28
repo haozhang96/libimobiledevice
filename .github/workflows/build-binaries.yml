@@ -106,7 +106,7 @@ jobs:
   #       for exe in rel/*.exe; do
   #         resolve_deps "$exe"
   #       done
-  #       tar -C rel -cJvf libimobile-suite-latest_${{matrix.arch}}-${{matrix.msystem}}.tar.xz .
+  #       tar -C rel -cJvf libimobiledevice-suite-latest_${{matrix.arch}}-${{matrix.msystem}}.tar.xz .
 
   #   - name: Draft release
   #     env:
@@ -114,7 +114,7 @@ jobs:
   #     run: |
   #       TAG="${GITHUB_REF##*/}-${GITHUB_SHA:0:7}"
   #       gh release create "$TAG" --draft --title "Draft Release"
-  #       gh release upload "$TAG" libimobile-suite-latest_${{matrix.arch}}-${{matrix.msystem}}.tar.xz
+  #       gh release upload "$TAG" libimobiledevice-suite-latest_${{matrix.arch}}-${{matrix.msystem}}.tar.xz
 
   build-macos:
     runs-on: macos-15-intel
@@ -122,7 +122,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { compiler: clang, arch: x86_64 }
+          - { platform: darwin, arch: x86_64 }
     steps:
     - name: Set up build system
       run: |
@@ -170,7 +170,7 @@ jobs:
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
             fi
-            ./autogen.sh CC=${{matrix.compiler}} CXX=${{matrix.compiler}}++ --enable-all-static --enable-static --disable-shared --enable-shared=no --enable-debug --without-cython
+            ./autogen.sh CC=gcc CXX=g++ --enable-static --enable-debug --without-cython
             sudo make -j install
             popd > /dev/null
         done
@@ -182,7 +182,7 @@ jobs:
         for repo in "${repos[@]}"; do
           DESTDIR=`pwd`/rel make install -C $repo
         done
-        tar -C rel -cJvf libimobile-suite-latest_macOS_${{matrix.arch}}.tar.xz usr
+        tar -C rel -cJvf libimobiledevice-suite-latest_${{matrix.platform}}_${{matrix.arch}}.tar.xz usr
 
     - name: Draft release
       env:
@@ -190,4 +190,4 @@ jobs:
       run: |
         TAG="${GITHUB_REF##*/}-${GITHUB_SHA:0:7}"
         gh release create "$TAG" --draft --title "Draft Release"
-        gh release upload "$TAG" libimobile-suite-latest_macOS_${{matrix.arch}}.tar.xz
+        gh release upload "$TAG" libimobiledevice-suite-latest_${{matrix.platform}}_${{matrix.arch}}.tar.xz
