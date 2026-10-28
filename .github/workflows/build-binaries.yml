@@ -192,7 +192,7 @@ jobs:
         gh release upload "$TAG" libimobiledevice-suite-latest_${{matrix.platform}}_${{matrix.arch}}.tar.xz
 
   build-macos-x86_64:
-    runs-on: macos-latest-large
+    runs-on: macos-26-intel
     strategy:
       matrix:
         include:
