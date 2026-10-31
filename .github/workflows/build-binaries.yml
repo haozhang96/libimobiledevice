@@ -37,7 +37,7 @@ jobs:
           mingw-w64-${{matrix.arch}}-github-cli
 
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Prepare environment
       run: |
@@ -133,7 +133,7 @@ jobs:
         fi
 
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Prepare environment
       run: |
@@ -208,7 +208,7 @@ jobs:
         fi
 
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Prepare environment
       run: |
