@@ -65,17 +65,6 @@ jobs:
               git clone "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
               git pull origin refs/pull/1711/head --rebase
-            elif [ $repo = 'idevicerestore' ]; then
-              # idevicerestore: Build after applying fix from https://github.com/libimobiledevice/idevicerestore/issues/788.
-              git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
-              pushd "$repo" > /dev/null
-
-              target='void finalize_progress(uint32_t tag)'
-              sed -i'' '/^$target/{n;d;}' src/common.c
-              sed -i'' '/^$target/a \
-                        { \
-                          thread_once(&progress_info_once, _init_progress_info); \
-                        ' src/common.c
             else
               # Build other dependencies as they are
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
@@ -153,17 +142,6 @@ jobs:
               git clone "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
               git pull origin refs/pull/1711/head --rebase
-            elif [ $repo = 'idevicerestore' ]; then
-              # idevicerestore: Build after applying fix from https://github.com/libimobiledevice/idevicerestore/issues/788.
-              git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
-              pushd "$repo" > /dev/null
-
-              target='void finalize_progress(uint32_t tag)'
-              gsed -i'' '/^$target/{n;d;}' src/common.c
-              gsed -i'' '/^$target/a \
-                        { \
-                          thread_once(&progress_info_once, _init_progress_info); \
-                        ' src/common.c
             else
               # Build other dependencies as they are
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
@@ -228,17 +206,6 @@ jobs:
               git clone "https://github.com/libimobiledevice/$repo"
               pushd "$repo" > /dev/null
               git pull origin refs/pull/1711/head --rebase
-            elif [ $repo = 'idevicerestore' ]; then
-              # idevicerestore: Build after applying fix from https://github.com/libimobiledevice/idevicerestore/issues/788.
-              git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
-              pushd "$repo" > /dev/null
-
-              target='void finalize_progress(uint32_t tag)'
-              gsed -i'' '/^$target/{n;d;}' src/common.c
-              gsed -i'' '/^$target/a \
-                        { \
-                          thread_once(&progress_info_once, _init_progress_info); \
-                        ' src/common.c
             else
               # Build other dependencies as they are
               git clone --depth=1 --recursive "https://github.com/libimobiledevice/$repo"
